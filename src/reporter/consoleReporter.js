@@ -53,7 +53,7 @@ class ConsoleReporter {
      */
     printSummary(executionTime) {
         console.log('\n\x1b[35mTest Summary:\x1b[0m');
-        console.log(`   \x1b[32m️️️✔️  ${formatNumber(this.passed)} Passed\x1b[0m`);
+        console.log(`   \x1b[32m✔️  ${formatNumber(this.passed)} Passed\x1b[0m`);
         console.log(`   \x1b[31m❌  ${formatNumber(this.failed)} Failed\x1b[0m`);
         console.log(`   \n\x1b[0m\x1b[36mTotal Execution Time:  ${executionTime.toFixed(2)}ms\x1b[0m`);
     }

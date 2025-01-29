@@ -62,14 +62,11 @@ class TestRunner {
     async runTests() {
         let passed = 0;
         let failed = 0;
-        let beforeAllCalled = false;
-        let afterAllCalled = false;
 
         if (beforeAllTests) {
             await beforeAllTests(t);
-            beforeAllCalled = true;
         }
-
+        
         for (let test of this.tests) {
             const { description, testFn, testFile } = test;
             let testDescription = description;
@@ -119,13 +116,12 @@ class TestRunner {
 
         if (afterAllTests) {
             await afterAllTests(t);
-            afterAllCalled = true;
         }
 
         const totalTime = stopTimer(this.startTime);
         this.reporter.printSummary(totalTime);
 
-        return { passed, failed, beforeAllCalled, afterAllCalled };
+        return { passed, failed };
     }
 
     /**
@@ -152,6 +148,19 @@ class TestRunner {
         }
 
         this.timeout = timeout;
+    }
+
+    /**
+     * Set the array of tests to execute.
+     * 
+     * @param {string[]} tests - An array of tests to execute. 
+     */
+    setTests(tests) {
+        if (!Array.isArray(tests)) {
+            throw new Error(`tests must be an array`);
+        }
+
+        this.tests = tests;
     }
 }
 

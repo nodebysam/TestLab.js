@@ -25,7 +25,7 @@ const runner = new TestRunner();
  * @param {Function} testFn - The test function under test.
  */
 const testlabjs = (description, testFn) => {
-    const testFile = module.parent?.filename || 'unknown';
+    const testFile = require.main?.filename || 'unknown';
     runner.test(description, testFn, testFile);
 };
 
@@ -44,8 +44,10 @@ testlabjs.runTests = async () => {
         console.error('No test files found');
         return;
     }
+   
+    const filteredTestFiles = testFiles.filter(file => file !== undefined);
 
-    for (const testFile of testFiles) {
+    for (const testFile of filteredTestFiles) {
         try {
             require(testFile);
         } catch (error) {
@@ -114,7 +116,7 @@ testlabjs.debug = () => {
     return config.debug;
 };
 
-if (require.main === module) {
+if (require.main !== module) {
     (async () => {
         await testlabjs.runTests();
     })();

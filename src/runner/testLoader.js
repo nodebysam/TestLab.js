@@ -10,6 +10,7 @@
  * For full license details, see the LICENSE file.
  */
 
+const { dir } = require('console');
 const fs = require('fs');
 const path = require('path');
 
@@ -34,6 +35,10 @@ class TestLoader {
      * @param {string} directory - The directory to load the test files from.
      */
     loadTestsFromDirectory(directory) {
+        if (!fs.existsSync(directory)) {
+            return;
+        }
+
         const files = fs.readdirSync(directory);
 
         files.forEach(file => {
