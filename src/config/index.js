@@ -34,7 +34,7 @@ const config = {
     reportFile: 'testReport.json',
 
     // The test directory path
-    testDirectory: path.join(process.cwd(), 'tests'),
+    testDirectory: path.join(process.cwd(), '..', '..', '..',  'tests'),
 
     // Test timeout in milliseconds. (seconds x 1000)
     timeout: 5000,

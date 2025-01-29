@@ -29,22 +29,22 @@ const testlabjs = (description, testFn) => {
     runner.test(description, testFn, testFile);
 };
 
-testlabjs.beforeTest = (fn) => { beforeTest(fn); };
-testlabjs.afterTest = (fn) => { afterTest(fn); };
-testlabjs.beforeAllTests = (fn) => { beforeAllTests(fn); };
-testlabjs.afterAllTests = (fn) => { afterAllTests(fn); };
+testlabjs.beforeTest = beforeTest;
+testlabjs.afterTest = afterTest;
+testlabjs.beforeAllTests = beforeAllTests;
+testlabjs.afterAllTests = afterAllTests;
 testlabjs.Reporter = Reporter;
 
 testlabjs.runTests = async () => {
     const testLoader = new TestLoader(config.testDirectory);
     testLoader.load();
     const testFiles = testLoader.getTestFiles();
-    console.log(testFiles);
+
     if (testFiles.length === 0) {
         console.error('No test files found');
         return;
     }
-   
+    
     const filteredTestFiles = testFiles.filter(file => file !== undefined);
 
     for (const testFile of filteredTestFiles) {
@@ -116,7 +116,7 @@ testlabjs.debug = () => {
     return config.debug;
 };
 
-if (require.main !== module) {
+if (require.main === module) {
     (async () => {
         await testlabjs.runTests();
     })();

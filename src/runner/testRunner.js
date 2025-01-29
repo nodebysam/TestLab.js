@@ -10,7 +10,6 @@
  * For full license details, see the LICENSE file.
  */
 
-const t = require('../testlabjs');
 const { startTimer, stopTimer } = require('../utils');
 const ConsoleReporter = require('../reporter/consoleReporter');
 const JsonReporter = require('../reporter/jsonReporter');
@@ -66,7 +65,7 @@ class TestRunner {
         if (beforeAllTests) {
             await beforeAllTests(t);
         }
-        
+
         for (let test of this.tests) {
             const { description, testFn, testFile } = test;
             let testDescription = description;
