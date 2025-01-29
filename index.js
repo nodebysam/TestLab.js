@@ -50,7 +50,7 @@ testlabjs.runTests = async () => {
             require(testFile);
         } catch (error) {
             console.error(`Error loading test file: ${testFile}`);
-            config.error(error);
+            console.error(error);
         }
     }
 
