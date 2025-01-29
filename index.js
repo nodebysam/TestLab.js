@@ -39,8 +39,9 @@ testlabjs.runTests = async () => {
     const testLoader = new TestLoader(config.testDirectory);
     testLoader.load();
     const testFiles = testLoader.getTestFiles();
-
+    console.log(testFiles);
     if (testFiles.length === 0) {
+        console.error('No test files found');
         return;
     }
    
