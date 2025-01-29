@@ -10,7 +10,6 @@
  * For full license details, see the LICENSE file.
  */
 
-const { dir } = require('console');
 const fs = require('fs');
 const path = require('path');
 

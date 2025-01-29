@@ -63,7 +63,7 @@ setConfig({
 });
 
 if (debug) {
-    console.log(`[DEBUG] CLI Options: ${{ testDir, outputFile, reporterType, debug, timeout }}`);
+    console.log(`[DEBUG] CLI Options:`, { testDir, outputFile, reporterType, debug, timeout });
 }
 
 setConfig({
