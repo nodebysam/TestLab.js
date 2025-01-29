@@ -269,7 +269,7 @@ Below are the default values for the available settings:
 
 ## Contributing
 We welcome contributions to TestLab.js! To contribute:
-1. Fork the Reposity
+1. Fork the Repository.
 2. Clone your fork to your local machine
 3. Create a new branch for your feature or bugfix.
 4. Make your changes, add tests if neccessary.
