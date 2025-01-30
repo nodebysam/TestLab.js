@@ -16,6 +16,7 @@ const { config, setConfig } = require('./src/config');
 const { beforeAllTests, beforeTest, afterAllTests, afterTest } = require('./src/runner/setupHooks');
 
 const runner = new TestRunner();
+let bin = false;
 
 /**
  * Execute a test.
@@ -108,7 +109,7 @@ test.debug = () => {
     return config.debug;
 };
 
-if (require.main === module) {
+if (!bin) {
     (async () => { await test.runTests(); })();
 }
 

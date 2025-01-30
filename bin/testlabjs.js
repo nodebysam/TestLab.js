@@ -72,6 +72,7 @@ setConfig({
 
 test.setTimeout(timeout);
 test.setTestDirectory(path.resolve(process.cwd(), testDir));
+test.bin = true;
 
 (async () => {
     try {
