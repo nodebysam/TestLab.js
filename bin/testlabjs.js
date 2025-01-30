@@ -20,8 +20,6 @@ const test = require('../index');
 const os = require('os');
 const figlet = require('figlet');
 
-const runner = new TestRunner();
-
 process.on('uncaughtException', (error) => {
     console.error(`Uncaught Exception: ${error.stack}`);
     process.exit(1);
