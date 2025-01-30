@@ -11,12 +11,11 @@
  */
 
 const TestRunner = require('./src/runner/testRunner');
-const TestLoader = require('./src/runner/testLoader');
 const { config, setConfig } = require('./src/config');
+const execute = require('./src/executor');
 const { beforeAllTests, beforeTest, afterAllTests, afterTest } = require('./src/runner/setupHooks');
 
 const runner = new TestRunner();
-let bin = false;
 
 /**
  * Execute a test.
@@ -33,29 +32,6 @@ test.beforeAllTests = (fn) => { beforeAllTests(fn); }
 test.beforeTest = (fn) => { beforeTest(fn); }
 test.afterTest = (fn) => { afterTest(fn); }
 test.afterAllTests = (fn) => { afterAllTests(fn); }
-
-test.runTests = async () => {
-    const testLoader = new TestLoader(config.testDirectory);
-    testLoader.load();
-    const testFiles = testLoader.getTestFiles();
-
-    if (testFiles.length === 0) {
-        console.error('No test files found.');
-        return;
-    }
-
-    for (const testFile of testFiles) {
-        try {
-            require(testFile);
-        } catch (error) {
-            console.error(`Error loading test file: ${testFile}.`);
-            console.error(error);
-        }
-    }
-
-    runner.setReporter(config.reporter);
-    await runner.runTests();
-};
 
 test.setTestDirectory = (testDirectory) => {
     setConfig({ testDirectory });
@@ -114,7 +90,7 @@ test.execute = async () => {
 };
 
 if (require.main === module) {
-    test.execute();
+    await execute(runner);
 }
 
 module.exports = test;
