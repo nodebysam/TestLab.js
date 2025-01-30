@@ -16,7 +16,7 @@ const { program } = require('commander');
 const path = require('path');
 const { config, setConfig } = require('../src/config');
 const { version } = require('../package.json');
-const testlabjs = require('../index');
+const test = require('../index');
 const os = require('os');
 const figlet = require('figlet');
 
@@ -44,7 +44,7 @@ program
     .parse(process.argv);
 
 const options = program.opts();
-const testDir = path.resolve(process.cwd(), options.directory) || config.testDirectory;
+const testDir = options.directory ? path.resolve(process.cwd(), options.directory) : config.testDirectory;
 const outputFile = path.resolve(process.cwd(), options.output) || config.reportFile;
 const reporterType = options.reporter.toString().toUpperCase() || config.reporter;
 const debug = options.debug || config.debug;
@@ -70,8 +70,8 @@ setConfig({
     reporter: reporterType === 'JSON' ? 'JSON' : 'CONSOLE',
 });
 
-testlabjs.setTimeout(timeout);
-testlabjs.setTestDirectory(path.resolve(process.cwd(), testDir));
+test.setTimeout(timeout);
+test.setTestDirectory(path.resolve(process.cwd(), testDir));
 
 (async () => {
     try {
@@ -79,7 +79,7 @@ testlabjs.setTestDirectory(path.resolve(process.cwd(), testDir));
         console.log(`\x1b[36m${figlet.textSync('NodeBySam', 'mini')}\x1b[0m\n`);
         console.log(`\x1b[36mVersion:\x1b[0m ${version}\n`);
         console.log(`\x1b[34mTestLab.js\x1b[0m - Running tests in directory: \x1b[36m${testDir}\x1b[0m\n`);
-        await testlabjs.runTests();
+        await test.runTests();
     } catch (error) {
         console.error(`\x1b[31mError running tests:\x1b[0m ${error}`);
         process.exit(1);

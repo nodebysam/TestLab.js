@@ -12,46 +12,42 @@
 
 const TestRunner = require('./src/runner/testRunner');
 const TestLoader = require('./src/runner/testLoader');
-const { beforeTest, afterTest, afterAllTests, beforeAllTests } = require('./src/runner/setupHooks');
 const { config, setConfig } = require('./src/config');
-const { Reporter } = require('./src/types');
+const { beforeAllTests, beforeTest, afterAllTests, afterTest } = require('./src/runner/setupHooks');
 
 const runner = new TestRunner();
 
 /**
- * Initialize TestLab.js as a callable function.
+ * Execute a test.
  * 
- * @param {string} description - The test description.
- * @param {Function} testFn - The test function under test.
+ * @param {string} description - The test description (i.e., 'Two plus two should equal 4').
+ * @param {Function} fn - The test function to execute. 
  */
-const testlabjs = (description, testFn) => {
-    const testFile = require.main?.filename || 'unknown';
-    runner.test(description, testFn, testFile);
+let test = (description, fn) => {
+    const testFile = module.parent?.filename || 'unknown';
+    runner.test(description, fn, testFile);
 };
 
-testlabjs.beforeTest = beforeTest;
-testlabjs.afterTest = afterTest;
-testlabjs.beforeAllTests = beforeAllTests;
-testlabjs.afterAllTests = afterAllTests;
-testlabjs.Reporter = Reporter;
+test.beforeAllTests = (fn) => { beforeAllTests(fn); }
+test.beforeTest = (fn) => { beforeTest(fn); }
+test.afterTest = (fn) => { afterTest(fn); }
+test.afterAllTests = (fn) => { afterAllTests(fn); }
 
-testlabjs.runTests = async () => {
+test.runTests = async () => {
     const testLoader = new TestLoader(config.testDirectory);
     testLoader.load();
     const testFiles = testLoader.getTestFiles();
 
     if (testFiles.length === 0) {
-        console.error('No test files found');
+        console.error('No test files found.');
         return;
     }
-    
-    const filteredTestFiles = testFiles.filter(file => file !== undefined);
 
-    for (const testFile of filteredTestFiles) {
+    for (const testFile of testFiles) {
         try {
             require(testFile);
         } catch (error) {
-            console.error(`Error loading test file: ${testFile}`);
+            console.error(`Error loading test file: ${testFile}.`);
             console.error(error);
         }
     }
@@ -60,66 +56,60 @@ testlabjs.runTests = async () => {
     await runner.runTests();
 };
 
-testlabjs.setTestDirectory = (dir) => {
-    setConfig({ testDirectory: dir });
+test.setTestDirectory = (testDirectory) => {
+    setConfig({ testDirectory });
 };
 
-testlabjs.setTimeout = (timeout) => {
+test.setTimeout = (timeout) => {
     setConfig({ timeout });
 };
 
-testlabjs.setReporter = (reporter) => {
-    setConfig({ reporter });
-};
-
-testlabjs.setEnableReport = (enableReport) => {
+test.setEnableReport = (enableReport) => {
     setConfig({ enableReport });
 };
 
-testlabjs.setReportPath = (reportPath) => {
+test.setReportPath = (reportPath) => {
     setConfig({ reportPath });
 };
 
-testlabjs.setReportFile = (reportFile) => {
+test.setReportFile = (reportFile) => {
     setConfig({ reportFile });
 };
 
-testlabjs.setDebug = (debug) => {
+test.setDebug = (debug) => {
     setConfig({ debug });
 };
 
-testlabjs.testDirectory = () => {
+test.testDirectory = () => {
     return config.testDirectory;
 };
 
-testlabjs.timeout = () => {
+test.timeout = () => {
     return config.timeout;
 };
 
-testlabjs.reporter = () => {
+test.reporter = () => {
     return config.reporter;
 };
 
-testlabjs.enableReport = () => {
+test.enableReport = () => {
     return config.enableReport;
 };
 
-testlabjs.reportPath = () => {
+test.reportPath = () => {
     return config.reportPath;
 };
 
-testlabjs.reportFile = () => {
+test.reportFile = () => {
     return config.reportFile;
 };
 
-testlabjs.debug = () => {
+test.debug = () => {
     return config.debug;
 };
 
 if (require.main === module) {
-    (async () => {
-        await testlabjs.runTests();
-    })();
+    (async () => { await test.runTests(); })();
 }
 
-module.exports = testlabjs;
+module.exports = test;
