@@ -90,7 +90,7 @@ test.execute = async () => {
 };
 
 if (require.main === module) {
-    await execute(runner);
+    (async () => { await execute(runner); });
 }
 
 module.exports = test;
