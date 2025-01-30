@@ -47,7 +47,7 @@ class TestRunner {
             this.testFiles.push(testFile);
         }
 
-        if (!this.testDescriptions.includes(description)) {
+        if (this.testDescriptions.includes(description)) {
             throw new Error(`A test with the description '${description}' already exists`);
         }
 
