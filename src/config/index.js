@@ -10,8 +10,6 @@
  * For full license details, see the LICENSE file.
  */
 
-const { Reporter } = require('../types');
-const os = require('os');
 const path = require('path');
 
 /**

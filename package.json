@@ -1,7 +1,7 @@
 {
-  "name": "testlab",
-  "version": "1.0.1",
-  "main": "index.js",
+  "name": "testlab.js",
+  "version": "0.0.30",
+  "main": ".src/index.js",
   "bin": {
     "testlabjs": "./src/cli/index.js"
   },
