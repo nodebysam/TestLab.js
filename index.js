@@ -113,7 +113,7 @@ if (require.main === module) {
     if (config.debug) {
         console.log('[DEBUG] Running tests in main.');
     }
-
+    
     if (!bin) {
         (async () => { await test.runTests(); })();
     }
