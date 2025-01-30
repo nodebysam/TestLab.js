@@ -74,6 +74,10 @@ test.setTimeout(timeout);
 test.setTestDirectory(path.resolve(process.cwd(), testDir));
 test.bin = true;
 
+if (debug) {
+    console.log('[DEBUG] Running tests via CLI.');
+}
+
 (async () => {
     try {
         console.log(`\x1b[32m${figlet.textSync('TestLab.JS', { horizontalLayout: 'full' })}\x1b[0m\n`);
