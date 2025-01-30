@@ -72,7 +72,6 @@ setConfig({
 
 test.setTimeout(timeout);
 test.setTestDirectory(path.resolve(process.cwd(), testDir));
-test.bin = true;
 
 if (debug) {
     console.log('[DEBUG] Running tests via CLI.');
