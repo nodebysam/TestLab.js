@@ -10,7 +10,10 @@
  * For full license details, see the LICENSE file.
  */
 
-const test = require('./src/test');
+if (!test) {
+    const test = require('./src/test');
+}
+
 const execute = require('./src/executor');
 
 (async() => { await execute(test.runner); });

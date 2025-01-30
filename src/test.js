@@ -85,6 +85,10 @@ test.debug = () => {
     return config.debug;
 };
 
+test.execute = async () => {
+    await execute(runner);
+};
+
 test.runner = runner;
 
 module.exports = test;
