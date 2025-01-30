@@ -30,7 +30,7 @@ const execute = async (runner) => {
 
     for (const testFile of testFiles) {
         try {
-
+            require(testFile);
         } catch (error) {
             console.error(`Error loading test file: ${testFile}.`);
             console.error(error);

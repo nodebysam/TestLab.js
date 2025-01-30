@@ -18,6 +18,7 @@ const { config, setConfig } = require('../src/config');
 const { version } = require('../package.json');
 const test = require('../src/test');
 const TestRunner = require('../src/runner/testRunner');
+const TestLoader = require('../src/runner/testLoader');
 const os = require('os');
 const figlet = require('figlet');
 
