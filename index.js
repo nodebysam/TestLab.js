@@ -57,10 +57,15 @@ test.runTests = async () => {
     await runner.runTests();
 };
 
-test.execute = async (bin = false) => {
-    if (bin) return false;
-    await test.runTests();
+test.execute = async () => {
+    if (bin) {
+        await test.runTests();
+    } else {
+        await test.runTests();
+    }
 };
+
+test.bin = false;
 
 test.setTestDirectory = (testDirectory) => {
     setConfig({ testDirectory });
@@ -114,6 +119,8 @@ test.debug = () => {
     return config.debug;
 };
 
-(async () => { await test.execute(); })();
+if (!bin) {
+    (async () => { test.execute(); })();
+}
 
 module.exports = test;

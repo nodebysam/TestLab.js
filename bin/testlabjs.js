@@ -84,7 +84,7 @@ if (debug) {
         console.log(`\x1b[36m${figlet.textSync('NodeBySam', 'mini')}\x1b[0m\n`);
         console.log(`\x1b[36mVersion:\x1b[0m ${version}\n`);
         console.log(`\x1b[34mTestLab.js\x1b[0m - Running tests in directory: \x1b[36m${testDir}\x1b[0m\n`);
-        await test.execute(true);
+        await test.execute();
     } catch (error) {
         console.error(`\x1b[31mError running tests:\x1b[0m ${error}`);
         process.exit(1);
