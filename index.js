@@ -10,7 +10,7 @@
  * For full license details, see the LICENSE file.
  */
 
-if (!test) {
+if (test === undefined) {
     const test = require('./src/test');
 }
 
