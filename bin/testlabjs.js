@@ -16,9 +16,8 @@ const { program } = require('commander');
 const path = require('path');
 const { config, setConfig } = require('../src/config');
 const { version } = require('../package.json');
-const test = require('../index');
+const test = require('../src/test');
 const TestRunner = require('../src/runner/testRunner');
-const execute = require('../src/executor');
 const os = require('os');
 const figlet = require('figlet');
 

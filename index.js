@@ -11,8 +11,7 @@
  */
 
 const test = require('./src/test');
-const execute = require('./src/executor');
 
-(async() => { await execute(test.runner); });
+(async() => { await test.execute(test.runner); })();
 
 module.exports = test;
