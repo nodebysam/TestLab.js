@@ -57,6 +57,10 @@ test.setDebug = (debug) => {
     setConfig({ debug });
 };
 
+test.setReporter = (reporter) => {
+    setConfig({ reporter });
+};
+
 test.testDirectory = () => {
     return config.testDirectory;
 };

@@ -75,6 +75,10 @@ setConfig({
 
 test.setTimeout(timeout);
 test.setTestDirectory(path.resolve(process.cwd(), testDir));
+test.setDebug(debug);
+test.setEnableReport(enableReport);
+test.setReportPath(reportPath);
+test.setReporter(reporterType);
 
 if (debug) {
     console.log('[DEBUG] Running tests via CLI.');
