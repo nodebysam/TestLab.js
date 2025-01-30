@@ -59,7 +59,7 @@ test.runTests = async () => {
 
 test.execute = async (bin = false) => {
     if (bin) return false;
-    (async () => { await test.runTests(); })();
+    await test.runTests();
 };
 
 test.setTestDirectory = (testDirectory) => {
