@@ -11,10 +11,10 @@
  */
 
 const path = require('path');
-const TestRunner = require('./src/runner/testRunner');
-const TestLoader = require('./src/runner/testLoader');
-const { beforeAllTests, beforeTest, afterTest, afterAllTests } = require('./src/runner/setupHooks');
-const { config, setConfig } = require('./src/config');
+const TestRunner = require('./runner/testRunner');
+const TestLoader = require('./runner/testLoader');
+const { beforeAllTests, beforeTest, afterTest, afterAllTests } = require('./runner/setupHooks');
+const { config, setConfig } = require('./config');
 
 const runner = new TestRunner();
 
@@ -24,14 +24,14 @@ const runner = new TestRunner();
  * @param {string} description - The test description.
  * @param {Function} fn - The test function to execute.
  */
-function test(description, fn) {
+const test = (description, fn) => {
     const testFile = module.parent?.filename || 'unknown';
     runner.test(description, fn, testFile);
-}
+};
 
 test.beforeTest = (fn) => { beforeTest(fn); };
-test.beforeAllTests = (fn) => { beforeAllTests(fn); };
-test.afterTest = (fn) => { afterTest(fn); };
+test.beforeAllTests = (fn) => { beforeAllTests(fn); }
+test.afterTest = (fn) => { afterTest(fn); }
 test.afterAllTests = (fn) => { afterAllTests(fn); };
 
 test.runTests = async () => {
@@ -53,15 +53,8 @@ test.runTests = async () => {
         }
     }
 
-    runner.setReporter(config.reporter);
     await runner.runTests();
 };
-
-if (require.main === module) {
-    (async () => {
-        await test.runTests();
-    })();
-}
 
 test.setTestDirectory = (testDirectory) => {
     setConfig({ testDirectory });
@@ -71,24 +64,8 @@ test.setTimeout = (timeout) => {
     setConfig({ timeout });
 };
 
-test.setEnableReport = (enableReport) => {
-    setConfig({ enableReport });
-};
-
-test.setReportPath = (reportPath) => {
-    setConfig({ reportPath });
-};
-
-test.setReportFile = (reportFile) => {
-    setConfig({ reportFile });
-};
-
 test.setDebug = (debug) => {
     setConfig({ debug });
-};
-
-test.setReporter = (reporter) => {
-    setConfig({ reporter });
 };
 
 test.testDirectory = () => {
@@ -103,20 +80,12 @@ test.reporter = () => {
     return config.reporter;
 };
 
-test.enableReport = () => {
-    return config.enableReport;
-};
-
-test.reportPath = () => {
-    return config.reportPath;
-};
-
-test.reportFile = () => {
-    return config.reportFile;
-};
-
 test.debug = () => {
     return config.debug;
 };
+
+if (require.main === module) {
+    (async () => { await test.runTests(); })();
+}
 
 module.exports = test;

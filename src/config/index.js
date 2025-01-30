@@ -18,21 +18,6 @@ const path = require('path');
  * TestLab.js configurations.
  */
 const config = {
-    // The reporter to use: either 'Reporter.CONSOLE' or 'Reporter.JSON'
-    reporter: Reporter.CONSOLE,
-
-    // Whether to output a JSON test summary report
-    enableReport: false,
-
-    // If you enabled report, specify the full path to the directory to store the JSON report file.
-    // Examples:
-    // Windows: reportPath: 'C:\Users\Smith\Documents\testresults'
-    // Linux: reportPath: '/home/smith/Documents/testresults'
-    reportPath: os.tmpdir(),
-
-    // The name of the file for the report, if enabled
-    reportFile: 'testReport.json',
-
     // The test directory path
     testDirectory: path.join(process.cwd(), 'tests'),
 

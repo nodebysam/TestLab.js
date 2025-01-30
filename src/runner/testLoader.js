@@ -14,24 +14,23 @@ const fs = require('fs');
 const path = require('path');
 
 /**
- * TestLoader class to load the test files.
+ * Loads the test files.
  */
 class TestLoader {
     /**
      * Creates a new instance of TestLoader.
      * 
-     * @param {string|null} testDirectory - The test directory to where the tests files are (leave null for auto-detect). 
+     * @param {string} testDirectory - The test directory to where the test files are (leave null or auto-detect).
      */
     constructor(testDirectory = null) {
-        this.testDirectory = testDirectory || process.cwd();
+        this.testDirectory = testDirectory;
         this.testFiles = [];
     }
 
     /**
-     * Loads all test files from the specified directory (including subdirectories).
-     * This also supports loading files from the whole project if no test directory is specified.
+     * Loads the test files from the given directory (including sub-directories).
      * 
-     * @param {string} directory - The directory to load the test files from.
+     * @param {string} directory - The directory to load test files from.
      */
     loadTestsFromDirectory(directory) {
         if (!fs.existsSync(directory)) {
@@ -45,7 +44,7 @@ class TestLoader {
             const stat = fs.statSync(fullPath);
 
             if (stat.isDirectory()) {
-                this.loadTestsFromDirectory(fullPath);
+
             } else if (stat.isFile() && file.endsWith('.test.js')) {
                 if (file.endsWith('.test.js')) {
                     this.testFiles.push(fullPath);
@@ -55,8 +54,8 @@ class TestLoader {
     }
 
     /**
-     * If no test directory is provided, scans the entire project for test files that match test.js pattern.
-     * Otherwise, it loads from the provided test directory.
+     * If no test directory is provided, scans the entire project for test files that match the test.js pattern.
+     * Otheriwse, it loads from the provided test directory.
      */
     load() {
         if (this.testDirectory) {
@@ -67,7 +66,7 @@ class TestLoader {
     }
 
     /**
-     * Scans the entire project directory for test files (e.g., files ending with .test.js).
+     * Scans the entire project directory for the test files (e.g., files ending with .test.js).
      * 
      * @param {string} directory - The root directory to start scanning.
      */
@@ -79,21 +78,23 @@ class TestLoader {
             const stat = fs.statSync(fullPath);
 
             if (stat.isDirectory()) {
-                this.scanProjectForTests(fullPath);
+
             } else if (stat.isFile() && file.endsWith('.test.js')) {
-                this.testFiles.push(fullPath);
+                if (file.endsWith('.test.js')) {
+                    this.testFiles.push(fullPath);
+                }
             }
         });
     }
-
+    
     /**
-     * Gets the loaded test files.
+     * Get the array of test files.
      * 
-     * @returns {string[]} An array of test file paths.
+     * @returns {Array} An array of test files.
      */
     getTestFiles() {
         return this.testFiles;
     }
-};
+}
 
 module.exports = TestLoader;

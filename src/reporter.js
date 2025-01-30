@@ -10,14 +10,14 @@
  * For full license details, see the LICENSE file.
  */
 
-const { formatNumber } = require('../utils');
+const { formatNumber } = require('./utils');
 
 /**
- * This module handles messaging to the console.
+ * Reports test results to the console.
  */
-class ConsoleReporter {
+class Reporter {
     /**
-     * Creates a new instance of ConsoleReporter.
+     * Creates a new instance of Reporter.
      */
     constructor() {
         this.passed = 0;
@@ -26,22 +26,22 @@ class ConsoleReporter {
     }
 
     /**
-     * Handles the result of a test.
+     * Handles the test result.
      * 
-     * @param {string} testName - The name of the test.
-     * @param {boolean} passed - Whether the test passed.
-     * @param {string} message - The failure message, if any. 
-     * @param {number} executionTime - The time taken for this test in milliseconds. 
+     * @param {string} description - The test description.
+     * @param {boolean} passed - True if passed, false if failed.
+     * @param {string} message - The failure message, if any.
+     * @param {number} executionTime - The time taken for this test in milliseconds.
      */
-    handleTestResult(testName, passed, message, executionTime) {
+    handleTestResult(description, passed, message, executionTime) {
         if (passed) {
             this.passed += 1;
-            this.testResults.push({ testName, status: 'passed', message, executionTime });
-            console.log(`\x1b[32m✔️  ${testName} \x1b[0m\x1b[36m(${executionTime.toFixed(2)}ms)\x1b[0m`);
+            this.testResults.push({ description, status: 'passed', message, executionTime });
+            console.log(`\x1b[32m✔️  ${description} \x1b[0m\x1b[36m(${executionTime.toFixed(2)}ms)\x1b[0m`);
         } else {
             this.failed += 1;
-            this.testResults.push({ testName, status: 'failed', message, executionTime });
-            console.log(`\x1b[31m❌  ${testName} \x1b[0m\x1b[36m(${executionTime.toFixed(2)}ms)\x1b[0m`);
+            this.testResults.push({ description, status: 'failed', message, executionTime });
+            console.log(`\x1b[31m❌  ${description} \x1b[0m\x1b[36m(${executionTime.toFixed(2)}ms)\x1b[0m`);
             console.log(`\x1b[31m   ${message}\x1b[0m`);
         }
     }
@@ -49,7 +49,7 @@ class ConsoleReporter {
     /**
      * Prints the summary of the test results to the console.
      * 
-     * @param {number} executionTime - The total test runs execution time in milliseconds.
+     * @param {number} executionTime - The total test runs execute time in milliseconds.
      */
     printSummary(executionTime) {
         console.log('\n\x1b[35mTest Summary:\x1b[0m');
@@ -59,4 +59,4 @@ class ConsoleReporter {
     }
 }
 
-module.exports = ConsoleReporter;
+module.exports = Reporter;

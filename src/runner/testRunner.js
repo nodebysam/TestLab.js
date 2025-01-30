@@ -10,16 +10,14 @@
  * For full license details, see the LICENSE file.
  */
 
-const t = require('../testlabjs');
+const t = require('../t');
 const { startTimer, stopTimer } = require('../utils');
-const ConsoleReporter = require('../reporter/consoleReporter');
-const JsonReporter = require('../reporter/jsonReporter');
-const { beforeTest, afterTest, beforeAllTests, afterAllTests } = require('../runner/setupHooks');
+const Reporter = require('../reporter');
+const { beforeTest, beforeAllTests, afterTest, afterAllTests, getAllHooks } = require('./setupHooks');
 const { config } = require('../config');
-const { Reporter } = require('../types');
 
 /**
- * This module is reponsible for running the test execution process.
+ * Handles the test execution process.
  */
 class TestRunner {
     /**
@@ -31,25 +29,25 @@ class TestRunner {
         this.testFiles = [];
         this.testDescriptions = [];
         this.timeout = config.timeout || 5000;
-        this.reporter = config.reporter === Reporter.CONSOLE ? new ConsoleReporter() : new JsonReporter();
+        this.reporter = new Reporter();
     }
 
     /**
      * Adds a test to the test suite.
      * 
-     * @param {string} description - The description of the test.
-     * @param {Function} testFn - The test function to run.
+     * @param {string} description - The test description.
+     * @param {Function} fn - The test function to execute.
      * @param {string} testFile - The file where the test is located.
-     * @throws {Error} Throws an error if the test name already exists.
+     * @throws {Error} Throws an error if the test name already exists. 
      */
-    test(description, testFn, testFile) {
-        this.tests.push({ description, testFn, testFile  });
+    test(description, fn, testFile) {
+        this.tests.push({ description, fn, testFile });
 
         if (!this.testFiles.includes(testFile)) {
             this.testFiles.push(testFile);
         }
 
-        if (this.testDescriptions.includes(description)) {
+        if (!this.testDescriptions.includes(description)) {
             throw new Error(`A test with the description '${description}' already exists`);
         }
 
@@ -60,18 +58,17 @@ class TestRunner {
      * Runs the tests and reports the results.
      */
     async runTests() {
-        let passed = 0;
-        let failed = 0;
-   
-        if (beforeAllTests) {
+        const hooks = getAllHooks();
+
+        if (hooks.beforeAllTestsHook) {
             await beforeAllTests(t);
         }
-        
-        for (let test of this.tests) {
-            const { description, testFn, testFile } = test;
+
+        for (const test of this.tests) {
+            const { description, fn, testFile } = test;
             let testDescription = description;
 
-            if (this.testFiles.length > 1) {
+            if (this.testFiles.length > 0) {
                 const relativePath = testFile.replace(process.cwd(), '').replace(/^\/|\\/g, '').replace(/\.js$/, '');
                 testDescription = `${relativePath} › ${description}`;
             }
@@ -80,87 +77,44 @@ class TestRunner {
             let start;
 
             try {
-                if (beforeTest) {
-                    await beforeTest(t);
+                if (hooks.beforeAllTestsHook) {
+                    await beforeAllTests(t);
                 }
 
                 start = startTimer();
 
-                const execute = async () => {
-                    if (testFn.constructor.name === 'AsyncFunction') {
-                        await testFn(t);
+                const testExecute = async () => {
+                    if (fn.constructor.name === 'AsyncFunction') {
+                        await fn(t);
                     } else {
-                        testFn(t);
+                        fn(t);
                     }
                 };
 
-                const timeoutPromise = new Promise((_, reject) => 
-                    setTimeout(() => reject(new Error('Test timed out')), this.timeout)
-                );
+                const timeoutPromise = new Promise((_, reject) => {
+                    setTimeout(() => reject(new Error('Test timed out')), this.timeout);
+                });
 
-                await Promise.race([execute(), timeoutPromise]);
+                await Promise.race([testExecute(), timeoutPromise]);
 
                 executionTime = stopTimer(start);
                 this.reporter.handleTestResult(testDescription, true, '', executionTime);
-                passed++;
-            } catch (error) {
+            } catch (error) { 
                 executionTime = executionTime || stopTimer(start);
                 this.reporter.handleTestResult(testDescription, false, error.message, executionTime);
-                failed++;
             }
 
-            if (afterTest) {
+            if (hooks.afterTestHook) {
                 await afterTest(t);
             }
         }
 
-        if (afterAllTests) {
+        if (hooks.afterAllTestsHook) {
             await afterAllTests(t);
         }
 
         const totalTime = stopTimer(this.startTime);
         this.reporter.printSummary(totalTime);
-
-        return { passed, failed };
-    }
-
-    /**
-     * Set the reporter type.
-     * 
-     * @param {string} reporterType - The reporter type to set.
-     */
-    setReporter(reporterType) {
-        if (reporterType === 'json') {
-            this.reporter = new JsonReporter();
-        } else {
-            this.reporter = new ConsoleReporter();
-        }
-    }
-
-    /**
-     * Set the test execution timeout in milliseconds.
-     * 
-     * @param {number} timeout - The test execution timeout in milliseconds.
-     */
-    setTimeout(timeout) {
-        if (typeof timeout !== 'number') {
-            throw new Error(`Timeout must be a number: ${timeout}`);
-        }
-
-        this.timeout = timeout;
-    }
-
-    /**
-     * Set the array of tests to execute.
-     * 
-     * @param {string[]} tests - An array of tests to execute. 
-     */
-    setTests(tests) {
-        if (!Array.isArray(tests)) {
-            throw new Error(`tests must be an array`);
-        }
-
-        this.tests = tests;
     }
 }
 
