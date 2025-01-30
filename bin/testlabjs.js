@@ -16,9 +16,7 @@ const { program } = require('commander');
 const path = require('path');
 const { config, setConfig } = require('../src/config');
 const { version } = require('../package.json');
-const test = require('../src/test');
-const TestRunner = require('../src/runner/testRunner');
-const TestLoader = require('../src/runner/testLoader');
+const test = require('../index');
 const os = require('os');
 const figlet = require('figlet');
 
@@ -85,43 +83,13 @@ if (debug) {
     console.log('[DEBUG] Running tests via CLI.');
 }
 
-const executeTests = (r) => {
-    const testLoader = new TestLoader(config.testDirectory);
-    testLoader.load();
-    const testFiles = testLoader.getTestFiles();
-
-    if (testFiles.length === 0) {
-        console.error('No test files found.');
-        return;
-    }
-
-    for (const testFile of testFiles) {
-        try {
-            require(testFile);
-        } catch (error) {
-            console.error(`Error loading test file: ${testFile}.`);
-            console.error(error);
-        }
-    }
-
-    r.setReporter(config.reporter);
-
-    r.runTests()
-        .then(() => {
-            console.log('Test execution complete!');
-        })
-        .catch(error => {
-            throw error;
-        });
-};
-
 (async () => {
     try {
         console.log(`\x1b[32m${figlet.textSync('TestLab.JS', { horizontalLayout: 'full' })}\x1b[0m\n`);
         console.log(`\x1b[36m${figlet.textSync('NodeBySam', 'mini')}\x1b[0m\n`);
         console.log(`\x1b[36mVersion:\x1b[0m ${version}\n`);
         console.log(`\x1b[34mTestLab.js\x1b[0m - Running tests in directory: \x1b[36m${testDir}\x1b[0m\n`);
-        executeTests(runner);
+        await test.runTests();
     } catch (error) {
         console.error(`\x1b[31mError running tests:\x1b[0m ${error}`);
         process.exit(1);
