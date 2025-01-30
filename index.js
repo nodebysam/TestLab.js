@@ -57,6 +57,11 @@ test.runTests = async () => {
     await runner.runTests();
 };
 
+test.execute = async (bin = false) => {
+    if (bin) return false;
+    (async () => { await test.runTests(); })();
+};
+
 test.setTestDirectory = (testDirectory) => {
     setConfig({ testDirectory });
 };
@@ -109,14 +114,6 @@ test.debug = () => {
     return config.debug;
 };
 
-if (require.main === module) {
-    if (config.debug) {
-        console.log('[DEBUG] Running tests in main.');
-    }
-    
-    if (!bin) {
-        (async () => { await test.runTests(); })();
-    }
-}
+(async () => { await test.execute(); })();
 
 module.exports = test;
