@@ -16,7 +16,7 @@ const { program } = require('commander');
 const path = require('path');
 const { config, setConfig } = require('../config');
 const { version } = require('../../package.json');
-const test = require('../testlabjs');
+const test = require('../index');
 const figlet = require('figlet');
 
 process.on('uncaughtException', error => {
