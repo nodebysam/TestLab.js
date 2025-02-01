@@ -23,7 +23,7 @@ const runner = new TestRunner();
  * @param {string} description - The test description.
  * @param {Function} fn - The test function to execute.
  */
-const test = (description, fn) => {
+function test(description, fn) {
     const testFile = module.parent?.filename || 'unknown';
     runner.test(description, fn, testFile);
 };
