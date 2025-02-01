@@ -32,7 +32,7 @@ const test = (description, fn) => {
  * 
  * @param {string} testDirectory - The test directory.
  */
-const setTestDirectory = (testDirectory) => {
+test.setTestDirectory = (testDirectory) => {
     setConfig({ testDirectory });
 };
 
@@ -41,7 +41,7 @@ const setTestDirectory = (testDirectory) => {
  * 
  * @param {number} timeout - The test timeout in milliseconds.
  */
-const setTimeout = (timeout) => {
+test.setTimeout = (timeout) => {
     setConfig({ timeout });
 };
 
@@ -50,7 +50,7 @@ const setTimeout = (timeout) => {
  * 
  * @param {boolean} debug - True to enable debugging, false to disable debug.
  */
-const setDebug = (debug) => {
+test.setDebug = (debug) => {
     setConfig({ debug });
 };
 
@@ -59,7 +59,7 @@ const setDebug = (debug) => {
  * 
  * @returns {string} - The test directory.
  */
-const testDirectory = () => {
+test.testDirectory = () => {
     return config.testDirectory;
 };
 
@@ -68,7 +68,7 @@ const testDirectory = () => {
  * 
  * @returns {number} The test timeout in milliseconds.
  */
-const timeout = () => {
+test.timeout = () => {
     return config.timeout;
 };
 
@@ -77,14 +77,14 @@ const timeout = () => {
  * 
  * @returns {boolean} True if debugging is enabled, false if debugging is disabled.
  */
-const debug = () => {
+test.debug = () => {
     return config.debug;
 };
 
 /**
  * Starts the test execution process.
  */
-const runTests = async () => {
+test.runTests = async () => {
     const testLoader = new TestLoader(config.testDirectory);
     testLoader.load();
     const testFiles = testLoader.getTestFiles();
@@ -105,13 +105,5 @@ const runTests = async () => {
 
     await runner.runTests();
 };
-
-test.setTestDirectory = setTestDirectory;
-test.setDebug = setDebug;
-test.setTimeout = setTimeout;
-test.testDirectory = testDirectory;
-test.debug = debug;
-test.timeout = timeout;
-test.runTests = runTests;
 
 module.exports = test;
