@@ -13,6 +13,7 @@
 const TestRunner = require('./runner/testRunner');
 const TestLoader = require('./runner/testLoader');
 const { config, setConfig } = require('./config');
+const { beforeTest, beforeAllTests, afterTest, afterAllTests } = require('./runner/setupHooks');
 
 const runner = new TestRunner();
 
@@ -26,6 +27,11 @@ const test = (description, fn) => {
     const testFile = module.parent?.filename || 'unknown';
     runner.test(description, fn, testFile);
 };
+
+test.beforeTest = (fn) => { beforeTest(fn); };
+test.beforeAllTests = (fn) => { beforeAllTests(fn); };
+test.afterTest = (fn) => { afterTest(fn); };
+test.afterAllTests = (fn) => { afterAllTests(fn); };
 
 /**
  * Set the test directory.
