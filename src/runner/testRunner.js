@@ -41,6 +41,7 @@ class TestRunner {
      * @throws {Error} Throws an error if the test name already exists. 
      */
     test(description, fn, testFile) {
+        console.log(description, fn, testFile);
         this.tests.push({ description, fn, testFile });
 
         if (!this.testFiles.includes(testFile)) {
