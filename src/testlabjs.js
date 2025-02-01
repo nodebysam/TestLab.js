@@ -10,7 +10,6 @@
  * For full license details, see the LICENSE file.
  */
 
-const { testDirectory, debug } = require('.');
 const TestRunner = require('./runner/testRunner');
 const TestLoader = require('./runner/testLoader');
 const { config, setConfig } = require('./config');
@@ -107,13 +106,12 @@ const runTests = async () => {
     await runner.runTests();
 };
 
-module.exports = {
-    test,
-    setTestDirectory,
-    setTimeout,
-    setDebug,
-    testDirectory,
-    timeout,
-    debug,
-    runTests,
-};
+test.setTestDirectory = setTestDirectory;
+test.setDebug = setDebug;
+test.setTimeout = setTimeout;
+test.testDirectory = testDirectory;
+test.debug = debug;
+test.timeout = timeout;
+test.runTests = runTests;
+
+module.exports = test;

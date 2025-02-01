@@ -10,18 +10,10 @@
  * For full license details, see the LICENSE file.
  */
 
-const { test, setTestDirectory, setTimeout, setDebug, testDirectory, timeout, debug, runTests } = require('./testlabjs');
+const test = require('./testlabjs');
 
 if (require.main === module) {
-    (async () => { await runTests(); })();
+    (async () => { await test.runTests(); })();
 }
 
-module.exports = {
-    test,
-    setTestDirectory,
-    setTimeout,
-    setDebug,
-    testDirectory,
-    timeout,
-    debug,
-};
+module.exports = test;
