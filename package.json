@@ -26,6 +26,7 @@
   "homepage": "https://github.com/nodebysam/TestLab.js#readme",
   "dependencies": {
     "diff": "^7.0.0",
+    "figlet": "^1.8.0",
     "fs": "^0.0.1-security",
     "glob": "^11.0.1",
     "path": "^0.12.7"
