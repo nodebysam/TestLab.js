@@ -72,19 +72,18 @@ const writeFile = (filePath, data) => {
  * @returns {string} The diff string.
  */
 const getDiff = (actualStr, expectedStr) => {
-    const diff = Diff.diffLines(expectedStr.toString(), actualStr.toString());
+    const diff = Diff.diffLines(actualStr.toString(), expectedStr.toString());
 
     let diffString = '';
 
     diff.forEach(part => {
-        const color = part.added ? 'green' : part.removed ? 'red' : 'grey';
+        const color = part.added ? '\x1b[32m' : part.removed ? '\x1b[31m' : '\x1b[90m';
+        const reset = '\x1b[0m';
         const text = part.value;
 
-        const coloredText = text.replace(/(^"|"$)/g, '\x1b[36m$1\x1b[0m');
-
-        diffString += color === 'green' ? `+ ${coloredText}\n` :
-                      color === 'red' ? `- ${coloredText}` :
-                      `${color === 'green' ? '+' : '-'} ${coloredText}`;
+        diffString += part.added ? `${color}+ ${text}${reset}` :
+                      part.removed ? `${color}- ${text}${reset}\n` :
+                      `${color}  ${text}${reset}`;
     });
 
     return diffString;
@@ -98,7 +97,7 @@ const getDiff = (actualStr, expectedStr) => {
  * @returns {string} The difference string for output. 
  */
 const getDifference = (actual, expected) => {
-    return `Difference (\x1b[31m- actual\x1b[0m, \x1b[32m+ expected\x1b[0m)\n\n${getDiff(actual, expected)}`;
+    return `\x1b[0mDifference (\x1b[31m- actual\x1b[0m, \x1b[32m+ expected\x1b[0m)\n\n${getDiff(actual, expected)}`;
 };
 
 module.exports = {

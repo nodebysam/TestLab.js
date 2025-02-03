@@ -78,7 +78,7 @@ class TestRunner {
 
             try {
                 if (hooks.beforeAllTestsHook) {
-                    await beforeAllTests(t);
+                    await beforeTest(t);
                 }
 
                 start = startTimer();

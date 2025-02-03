@@ -53,8 +53,12 @@ class Reporter {
      */
     printSummary(executionTime) {
         console.log('\n\x1b[35mTest Summary:\x1b[0m');
-        console.log(`   \x1b[32m✔️  ${formatNumber(this.passed)} Passed\x1b[0m`);
-        console.log(`   \x1b[31m❌  ${formatNumber(this.failed)} Failed\x1b[0m`);
+
+        const passedStr = `${formatNumber(this.passed)}`.padStart(3, ' ');
+        const failedStr = `${formatNumber(this.failed)}`.padStart(2, ' ');
+    
+        console.log(`   \x1b[32m✔️  ${passedStr} Passed\x1b[0m`);
+        console.log(`   \x1b[31m❌  ${failedStr} Failed\x1b[0m`);
         console.log(`   \n\x1b[0m\x1b[36mTotal Execution Time:  ${executionTime.toFixed(2)}ms\x1b[0m`);
     }
 }
