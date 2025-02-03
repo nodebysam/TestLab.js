@@ -23,7 +23,7 @@ const runner = new TestRunner();
  * @param {string} description - The test description.
  * @param {Function} fn - The test function to execute.
  */
-function test(description, fn) {
+const test = (description, fn) => {
     const testFile = module.parent?.filename || 'unknown';
     runner.test(description, fn, testFile);
 };
@@ -31,7 +31,7 @@ function test(description, fn) {
 test.beforeTest = (fn) => { beforeTest(fn); };
 test.beforeAllTests = (fn) => { beforeAllTests(fn); };
 test.afterTest = (fn) => { afterTest(fn); };
-test.afterAllTests = (fn) => { afterAllTests(fn); };
+test.afterAllTests = (fn) => {afterAllTests(fn); };
 
 /**
  * Set the test directory.
@@ -111,9 +111,5 @@ test.runTests = async () => {
 
     await runner.runTests();
 };
-
-if (require.main === module) {
-    (async () => { await test.runTests(); })();
-}
 
 module.exports = test;
