@@ -1,6 +1,6 @@
 {
   "name": "testlab.js",
-  "version": "0.0.42",
+  "version": "0.0.43",
   "main": "src/index.js",
   "bin": {
     "testlabjs": "src/cli/index.js"
