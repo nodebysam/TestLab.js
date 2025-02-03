@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /**
  * TestLab.JS
  * "Test Smarter, Not Harder!"
@@ -10,8 +12,12 @@
  * For full license details, see the LICENSE file.
  */
 
-const pass = () => {
+const TestLabJS = require('../lib');
+const config = require('../lib/config');
 
-};
+const testlabjs = new TestLabJS();
+testlabjs.configure(config);
 
-module.exports = { pass };
+(async () => {
+    await testlabjs.runFromCLI();
+})();

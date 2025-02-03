@@ -1,0 +1,5 @@
+{
+    "testDirectory": "tests",
+    "debug": false,
+    "timeout": 5000
+}
