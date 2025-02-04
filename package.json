@@ -1,13 +1,14 @@
 {
   "name": "testlab.js",
   "version": "0.0.68",
-  "description": "**\"Test Smarter, Not Harder!\"**",
+  "description": "\"Test Smarter, Not Harder!\"",
   "main": "lib/index.js",
   "directories": {
     "lib": "lib"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node lib/index.js"
   },
   "bin": {
     "testlabjs": "bin/testlabjs.js"
@@ -16,9 +17,14 @@
     "type": "git",
     "url": "git+https://github.com/nodebysam/TestLab.js.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "testing",
+    "unit-test",
+    "testlab",
+    "nodejs"
+  ],
+  "author": "Sam Wilcox <wilcox.sam@gmail.com>",
+  "license": "GPL-3.0-only",
   "type": "commonjs",
   "bugs": {
     "url": "https://github.com/nodebysam/TestLab.js/issues"
@@ -27,8 +33,10 @@
   "dependencies": {
     "diff": "^7.0.0",
     "figlet": "^1.8.0",
-    "fs": "^0.0.1-security",
     "glob": "^11.0.1",
     "path": "^0.12.7"
+  },
+  "engines": {
+    "node": ">=14.0.0"
   }
 }

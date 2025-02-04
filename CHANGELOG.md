@@ -7,3 +7,6 @@
 * __v0.0.3__ => __v0.0.4__:
     * Removed unneccessary require in testLoader.js.
     * Fixed a typo in README.md.
+* __v0.0.4__ => __v.0.0.69__:
+    * Updated README.md.
+    * Rewrote the complete framework as the previous framework caused too many issues.
