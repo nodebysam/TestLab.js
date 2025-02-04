@@ -4,6 +4,6 @@
     "debug": false,
     "timeout": 5000,
     "paralell": true,
-    "resultsToJsonFile": true,
+    "resultsToJsonFile": false,
     "resultsJsonFilePath": "testresults.json"
 }
