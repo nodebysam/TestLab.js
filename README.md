@@ -99,13 +99,13 @@ testlabjs.run();
 ```
 
 ## Test Timeout
-Set a timeout for your tests to prevent them from handing indefinitely:
+Set a timeout for your tests to prevent them from hanging indefinitely:
 
 ```javascript
 const testlabjs = require('testlab.js); // Import TestLab.js
 
 // Set the timeout
-testlabjs.config({ timeout: 10000 });
+testlabjs.configure({ timeout: 10000 });
 ```
 
 ## Assertions
