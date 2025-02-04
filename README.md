@@ -1,7 +1,7 @@
 # TestLab.js
 **"Test Smarter, Not Harder!"**
 
-TestLab.js is a simple, lightweight JavaScript testing framework designed to make unit testing a breeze. It includes useful assertions, easy test setup, hooks, and support for custom reporters. Whether you're testing a small function or running a full suite of tests, TestLab.js helps you test your code effectively and efficiently.
+TestLab.js is a simple, lightweight JavaScript testing framework designed to make unit testing a breeze. It includes useful assertions, easy test setup, and hooks. Whether you're testing a small function or running a full suite of tests, TestLab.js helps you test your code effectively and efficiently.
 
 ---
 
