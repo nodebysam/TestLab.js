@@ -1,5 +1,5 @@
 {
-    "testDirectory": "./tests/*.test.js",
+    "testDirectory": "tests",
     "usePattern": false,
     "debug": false,
     "timeout": 5000,
