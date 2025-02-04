@@ -12,7 +12,7 @@
  * For full license details, see the LICENSE file.
  */
 
-const testlabjs = require('../lib/index');
+const testlabjs = require('../lib');
 const config = require('../lib/config');
 
 testlabjs.configure(config);
