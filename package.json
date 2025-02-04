@@ -2,7 +2,7 @@
   "name": "testlab.js",
   "version": "0.0.51",
   "description": "**\"Test Smarter, Not Harder!\"**",
-  "main": "index.js",
+  "main": "lib/index.js",
   "directories": {
     "lib": "lib"
   },
