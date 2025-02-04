@@ -175,30 +175,29 @@ console.log(`Timeout is ${value}.`);
 ```
 
 ### All Available Settings
-* __reporter:__
-Specifies which reporter to use for displaying the test results. The two main options typically available are console (default) and json. Each reporter presents the test results in a different format.
-* __enableReport:__
-Enables reporting for the test execution process. When activated, this flag will make sure that detailed reports are generated, which can include information about the passed and failed tests, execution time, and other useful metrics.
-* __reportPath:__
-Defines the path where the test report will be saved.
-* __reportFile:__
-The name of the test report file.
 * __testDirectory:__
 Specifies the directory where your test files are located. This setting allows you to define the folder or path containing the tests you want to execute.
+* __usePattern:__
+Whether to use patterns inside the test directory path. For example: 'tests/*.test.js'.
 * __timeout:__
 Sets a custom timeout (in milliseconds) for individual tests. If a test exceeds the specified time, it will be aborted, and an error will be reported. This is useful to avoid tests running indefinitely due to unforeseen issues or delays.
 * __debug:__
 Enables debug mode during the test execution. When this option is active, additional debug information will be printed to the console, which can be helpful for diagnosing issues with the tests or the framework itself.
+* __paralell:__
+Whether to execute the tests in parallel.
+* __resultsToJsonFile:__
+Whether to write test results to a JSON file.
+* __resultsJsonFilePath:__
+The file to write the test results JSON summary.
 
 ### Default Settings
 Below are the default values for the available settings:
-* __reporter:__ Reporter.CONSOLE
-* __enableReport:__ false
-* __reportPath:__ os.tmpdir()
-* __reportFile:__ 'testReport.json'
 * __testDirectory:__ path.join(process.cwd(), 'tests)
 * __timeout:__ 5000 ms
 * __debug:__ false
+* __paralell:__ true
+* __resultsToJsonFile:__ false
+* __resultsJsonFilePath:__ testresults.json
 
 ## Contributing
 We welcome contributions to TestLab.js! To contribute:
