@@ -1,5 +1,9 @@
 {
-    "testDirectory": "tests",
+    "testDirectory": "./tests/*.test.js",
+    "usePattern": false,
     "debug": false,
-    "timeout": 5000
+    "timeout": 5000,
+    "paralell": true,
+    "resultsToJsonFile": true,
+    "resultsJsonFilePath": "testresults.json"
 }

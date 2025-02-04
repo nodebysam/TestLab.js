@@ -9,7 +9,6 @@ TestLab.js is a simple, lightweight JavaScript testing framework designed to mak
 - [Installation](#installation)
 - [Usage](#usage)
 - [Running Tests](#running-tests)
-- [Custom Reporter](#custom-reporter)
 - [Test Timeout](#test-timeout)
 - [Assertions](#assertions)
 - [Custom Settings](#custom-settings)
@@ -43,7 +42,7 @@ Here's the basic example to get started with TestLab.js:
 const testlabjs = require('testlab.js'); // Import TestLab.js
 
 // Example test
-testlabjs('should add two numbers', t => {
+testlabjs.test('should add two numbers', t => {
     const result = 1 + 2;
     t.is(result, 3); // Assert that result is 3
 });
@@ -55,31 +54,31 @@ Here's a more advanced example of using TestLab.js:
 const testlabjs = require('testlab.js'); // Import TestLab.js
 
 // Execute a method before any tests start
-testlabjs.beforeAllTests(t => {
+testlabjs.beforeAll(t => {
     t.name = 'John Smith;'; // Add a value to the t object
     t.mockValue = [];
     console.log('I have executed before any tests start');
 });
 
 // Execute a method before each single test
-testlabjs.beforeTest(t => {
+testlabjs.beforeEach(t => {
     t.mockValue = [1, 2, 3];
 });
 
 // Example test
-testlabjs('Does the mock method throw an error and is it the expected message', t => {
+testlabjs.test('Does the mock method throw an error and is it the expected message', t => {
     const mock = () => { throw Error('This is part one of the message : this is part two of the message') };
     const error = t.throws(() => mock()); // Executes the mock function and checks for thrown error
     t.regex(error.message, /message/); // Check if the message contans the word "message"
 });
 
 // Execute a method after each single test
-testlabjs.afterTest(() => {
+testlabjs.afterEach(() => {
     console.log('I have executed after each test');
 });
 
 // Execute a method after all tests have ran
-testlabjs.afterAllTests(() => {
+testlabjs.afterAll(() => {
     console.log('I have executed after all tests have ran');
 });
 ```
@@ -91,78 +90,12 @@ To run your tests, use the following script:
 testlabjs
 ```
 
-You can also include arguments, for example:
-
-```bash
-testlabjs -d 'path/to/tests' -t 20000
-```
-
-Below are all the available argument options:
-
-### -d --directory <path>:
-* __Description:__ Specifies the directory where your test files are located. This option allows you to define the folder or path containing the tests you want to execute.
-* __Usage Example:__
-```bash
-testlabjs -d ./tests
-```
-This will tell TestLab.js to look for test files in the ./tests directory.
-
-### -o --output <file>:
-* __Description:__  Defines the file where the test results will be saved. This is useful if you want to store your test outcomes in a file instead of just seeing them in the console.
-* __Usage Example:__
-```bash
-testlabjs -o results.json
-```
-This will save the results in a results.json file.
-
-### -e --enablereport:
-* __Description:__ Enables reporting for the test execution process. When activated, this flag will make sure that detailed reports are generated, which can include information about the passed and failed tests, execution time, and other useful metrics.
-* __Usage Example:__
-```bash
-testlabjs -e
-```
-This will activate the report generation feature during test execution.
-
-### -r --reporter <type>:
-* __Description:__ Specifies which reporter to use for displaying the test results. The two main options typically available are console (default) and json. Each reporter presents the test results in a different format.
-    * __console:__ Displays results in a human-readable format in the console.
-    * __json:__ Outputs the test results in a JSON format, suitable for programmatic processing or further analysis.
-* __Usage Example:__
-```bash
-testlabjs -r json
-```
-This will set the reporter to output the results in JSON format.
-
-### -p --reportpath <path>: 
-* __Description:__ Defines the path where the test report will be saved. If the report is being output to a file (via __-o__ or __--output__), this flag can specify the folder or directory for storing the report.
-* __Usage Example:__
-```bash
-testlabjs -p ./test-reports
-```
-This will save the report in the ./test-reports directory.
-
-### -x --debug:
-* __Description:__ Enables debug mode during the test execution. When this option is active, additional debug information will be printed to the console, which can be helpful for diagnosing issues with the tests or the framework itself.
-* __Usage Example:__
-```bash
-testlabjs -x
-```
-This will enable debug mode and display more detailed information about the test execution process.
-
-### -t --timeout <ms>:
-* __Description:__ Sets a custom timeout (in milliseconds) for individual tests. If a test exceeds the specified time, it will be aborted, and an error will be reported. This is useful to avoid tests running indefinitely due to unforeseen issues or delays.
-* __Usage Example:__
-```bash
-testlabjs -t 10000
-```
-This will set the timeout to 10,000 milliseconds (10 seconds) for each test.
-
-## Custom Reporter
-You can configure TestLab.js to use either a console or JSON reporter. By default, it will output results to the console, but you can change it:
+or, you can run tests by executing this method:
 
 ```javascript
-const testlabjs = require('testlab.js'); // Import TestLab.js
-testlabjs.
+const testlabjs = require('testlab.js');
+
+testlabjs.run();
 ```
 
 ## Test Timeout
@@ -172,7 +105,7 @@ Set a timeout for your tests to prevent them from handing indefinitely:
 const testlabjs = require('testlab.js); // Import TestLab.js
 
 // Set the timeout
-testlabjs.setTimeout(10000);
+testlabjs.config({ timeout: 10000 });
 ```
 
 ## Assertions
@@ -230,14 +163,14 @@ TestLab.js allows you to modify all the available configuration values. To set a
 const testlabjs = require('testlab.js'); // Import TestLab.js
 
 // Set a setting
-testlabjs.setReporter(testlabjs.Reporter.CONSOLE);
+testlabjs.configure({ testDirectory: 'tests' });
 ```
 To get a setting value:
 ```javascript
 const testlabjs = require('testlab.js'); // Import TestLab.js
 
 // Get a setting value
-const value = testlabjs.timeout(); // Gets the timeout value
+const value = testlabjs.getConfig('timeout'); // Gets the timeout value
 console.log(`Timeout is ${value}.`);
 ```
 
@@ -281,11 +214,10 @@ TestLab.js is released under the [GNU General Public License Version 3, 29 June 
 
 ## Additional Features
 * __Test Hooks:__ TestLab.js supports setup and teardown hooks, which are executed before or after individual tests or before and after all tests:
-    * __beforeTest()__
-    * __afterTest()__
-    * __beforeAllTests()__
-    * __afterAllTests()__
-* __Custom Reporters:__ You can implement custom reporters to format and output test results in a way that suits your needs.
+    * __beforeEach()__
+    * __afterEach()__
+    * __beforeAll()__
+    * __afterAll()__
 * __Diff Output:__ TestLab.js includes diff output to highlight what changed when an assertion fails.
 
 ## Conact Information
